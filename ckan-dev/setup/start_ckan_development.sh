@@ -11,22 +11,26 @@ do
 
         if [ -f $i/pip-requirements.txt ];
         then
+            . $APP_DIR/bin/activate && cd $SRC_EXTENSIONS_DIR && \
             pip install -r $i/pip-requirements.txt
             echo "Found requirements file in $i"
         fi
         if [ -f $i/requirements.txt ];
         then
+            . $APP_DIR/bin/activate && cd $SRC_EXTENSIONS_DIR && \
             pip install -r $i/requirements.txt
             echo "Found requirements file in $i"
         fi
         if [ -f $i/dev-requirements.txt ];
         then
+            . $APP_DIR/bin/activate && cd $SRC_EXTENSIONS_DIR && \
             pip install -r $i/dev-requirements.txt
             echo "Found dev-requirements file in $i"
         fi
         if [ -f $i/setup.py ];
         then
             cd $i
+            . $APP_DIR/bin/activate && cd $SRC_EXTENSIONS_DIR && \
             python $i/setup.py develop
             echo "Found setup.py file in $i"
             cd $APP_DIR
@@ -36,6 +40,7 @@ do
         if [ -f $i/test.ini ];
         then
             echo "Updating \`test.ini\` reference to \`test-core.ini\` for plugin $i"
+            . $APP_DIR/bin/activate && cd $SRC_EXTENSIONS_DIR && \
             paster --plugin=ckan config-tool $i/test.ini "use = config:../../src/ckan/test-core.ini"
         fi
     fi
@@ -43,14 +48,17 @@ done
 
 # Set debug to true
 echo "Enabling debug mode"
-paster --plugin=ckan config-tool $CKAN_INI -s DEFAULT "debug = true"
+. $APP_DIR/bin/activate && cd $APP_DIR/src && \
+	paster --plugin=ckan config-tool $CKAN_INI -s DEFAULT "debug = true"
 
 # Update the plugins setting in the ini file with the values defined in the env var
 echo "Loading the following plugins: $CKAN__PLUGINS"
+. $APP_DIR/bin/activate && cd $APP_DIR/src && \
 paster --plugin=ckan config-tool $CKAN_INI "ckan.plugins = $CKAN__PLUGINS"
 
 # Update test-core.ini DB, SOLR & Redis settings
 echo "Loading test settings into test-core.ini"
+. $APP_DIR/bin/activate && cd $APP_DIR/src && \
 paster --plugin=ckan config-tool $SRC_DIR/ckan/test-core.ini \
     "sqlalchemy.url = $TEST_CKAN_SQLALCHEMY_URL" \
     "ckan.datstore.write_url = $TEST_CKAN_DATASTORE_WRITE_URL" \
@@ -59,6 +67,7 @@ paster --plugin=ckan config-tool $SRC_DIR/ckan/test-core.ini \
     "ckan.redis_url = $TEST_CKAN_REDIS_URL"
 
 # Run the prerun script to init CKAN and create the default admin user
+. $APP_DIR/bin/activate && cd $APP_DIR/src && \
 python prerun.py
 
 # Run any startup scripts provided by images extending this one
@@ -75,7 +84,9 @@ then
 fi
 
 # Start supervisord
+. $APP_DIR/bin/activate && cd $APP_DIR/src && \
 supervisord --configuration /etc/supervisord.conf &
 
 # Start the development server with automatic reload
-paster serve --reload $CKAN_INI
+. $APP_DIR/bin/activate && cd $APP_DIR/src && \
+	paster serve --reload $CKAN_INI

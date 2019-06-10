@@ -1,6 +1,6 @@
-FROM openknowledge/ckan-base:2.8
+FROM ckan-base:2.8
 
-MAINTAINER Open Knowledge International <info@okfn.org>
+MAINTAINER John Kolesar
 
 ENV APP_DIR=/srv/app
 ENV SRC_EXTENSIONS_DIR=/srv/app/src_extensions
@@ -9,7 +9,8 @@ ENV SRC_EXTENSIONS_DIR=/srv/app/src_extensions
 RUN apk add --no-cache libffi-dev
 
 # Install CKAN dev requirements
-RUN pip install --no-binary :all: -r https://raw.githubusercontent.com/ckan/ckan/${GIT_BRANCH}/dev-requirements.txt
+RUN . $APP_DIR/bin/activate && cd $APP_DIR/src && \
+    pip install --no-binary :all: -r https://raw.githubusercontent.com/ckan/ckan/${GIT_BRANCH}/dev-requirements.txt
 
 # Create folder for local extensions sources
 RUN mkdir $SRC_EXTENSIONS_DIR

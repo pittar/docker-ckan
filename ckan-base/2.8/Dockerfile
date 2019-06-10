@@ -10,8 +10,9 @@ ENV GIT_URL=https://github.com/ckan/ckan.git
 # CKAN version to build
 ENV GIT_BRANCH=ckan-2.8.2
 # Customize these on the .env file if needed
-ENV CKAN_SITE_URL=http://localhost:5000
-ENV CKAN__PLUGINS image_view text_view recline_view datastore datapusher envvars
+ENV CKAN_SITE_URL=${CKAN_SITE_URL}
+#ENV CKAN_SITE_URL=http://localhost:5000
+ENV CKAN__PLUGINS=${CKAN__PLUGINS}
 
 WORKDIR ${APP_DIR}
 
@@ -53,8 +54,13 @@ RUN apk add --no-cache git \
     python ${SRC_DIR}/get-pip.py && \
     pip install supervisor && \
     mkdir /etc/supervisord.d && \
+    pip install virtualenv && \
     #pip wheel --wheel-dir=/wheels uwsgi gevent && \
     rm -rf ${SRC_DIR}/get-pip.py
+
+RUN virtualenv ${APP_DIR} && \
+    ln -s ${APP_DIR}/bin/pip /usr/local/bin/ckan-pip && \
+    ln -s ${APP_DIR}/bin/paster /usr/local/bin/ckan-paster
 
 RUN echo "@testing http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories && \
     apk add --update --no-cache geos@testing geos-dev@testing py-geos@testing
@@ -62,18 +68,21 @@ RUN echo "@testing http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/ap
 COPY setup/supervisord.conf /etc
 
 # Install CKAN
-RUN pip install -e git+${GIT_URL}@${GIT_BRANCH}#egg=ckan && \
+RUN . ${APP_DIR}/bin/activate && cd ${APP_DIR}/src && \
+    pip install -e git+${GIT_URL}@${GIT_BRANCH}#egg=ckan && \
     cd ${SRC_DIR}/ckan && \
     cp who.ini ${APP_DIR} && \
     # Workaround to solve https://github.com/psycopg/psycopg2/issues/594 in Alpine 3.7
 	sed -i -e "s/psycopg2==2.4.5/psycopg2==2.7.3.2/g" requirements.txt && \
-    pip install --no-binary :all: -r requirements.txt && \
+    pip install --no-binary :all: -r requirements.txt
+
     # Install CKAN envvars to support loading config from environment variables
+RUN . ${APP_DIR}/bin/activate && cd ${APP_DIR}/src && \
     pip install -e git+https://github.com/okfn/ckanext-envvars.git#egg=ckanext-envvars && \
     # Create and update CKAN config
     paster --plugin=ckan make-config ckan ${CKAN_INI} && \
     paster --plugin=ckan config-tool ${CKAN_INI} "ckan.plugins = ${CKAN__PLUGINS}" && \
-    paster --plugin=ckan config-tool ${CKAN_INI} "ckan.site_url = ${CKAN__SITE_URL}"
+    paster --plugin=ckan config-tool ${CKAN_INI} "ckan.site_url = ${CKAN_SITE_URL}"
 
 # Create a local user and group to run the app
 RUN addgroup -g 92 -S ckan && \
@@ -90,7 +99,7 @@ COPY setup/uwsgi.conf /srv/app/uwsgi.conf
 # Create entrypoint directory for children image scripts
 ONBUILD RUN mkdir /docker-entrypoint.d
 
-RUN chown ckan -R /srv/app
+RUN chown -R ckan:ckan /srv/app
 
 EXPOSE 5000
 

@@ -2,11 +2,24 @@ version: "3"
 
 services:
   ckan-dev:
+    env_file:
+      - .env-dev
     build:
       context: ckan/
       dockerfile: Dockerfile.dev
-    env_file:
-      - .env
+      args:
+         - CKAN__LOCALE_ORDER
+         - CKAN__LOCALES_OFFERED
+         - CKAN___SCHEMING__DATASET_SCHEMAS
+         - CKAN___SCHEMING__PRESETS
+         - CKAN___SCHEMING__DATASET_FALLBACK
+         - CKAN__SEARCH__SHOW_ALL_TYPES
+         - CKAN___LICENSES_GROUP_URL
+         - CKAN__VIEWS__DEFAULT_VIEWS
+         - CKAN___CKANEXT__GEOVIEW__OL_VIEWER__FORMAT
+         - CKAN__ROOT_PATH
+         - CKAN_SITE_URL
+         - CKAN__PLUGINS
     links:
       - db
       - solr
@@ -17,6 +30,8 @@ services:
     volumes:
       - ./src:/srv/app/src_extensions
       - ckan_storage:/var/lib/ckan
+      - ckan_app:/srv/app
+      - ckan_etc:/etc
 
   datapusher:
     container_name: datapusher
@@ -27,8 +42,6 @@ services:
 
   db:
     container_name: db
-    env_file:
-      - .env
     build:
       context: postgresql/
     volumes:
@@ -46,3 +59,5 @@ services:
 volumes:
   ckan_storage:
   pg_data:
+  ckan_app:
+  ckan_etc:
