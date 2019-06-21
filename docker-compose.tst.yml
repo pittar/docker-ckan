@@ -1,22 +1,40 @@
 version: "3"
 
 services:
-
-  ckan:
-    container_name: ckan
-    build:
-      context: ckan/
+  ckan-dev:
     env_file:
       - .env-tst
+    build:
+      context: ckan/
+      dockerfile: Dockerfile.dev
+      args:
+         - CKAN__LOCALE_ORDER
+         - CKAN__LOCALES_OFFERED
+         - CKAN___SCHEMING__DATASET_SCHEMAS
+         - CKAN___SCHEMING__PRESETS
+         - CKAN___SCHEMING__DATASET_FALLBACK
+         - CKAN__SEARCH__SHOW_ALL_TYPES
+         - CKAN___LICENSES_GROUP_URL
+         - CKAN__VIEWS__DEFAULT_VIEWS
+         - CKAN___CKANEXT__GEOVIEW__OL_VIEWER__FORMAT
+         - CKAN__ROOT_PATH
+         - CKAN_SITE_URL
+         - CKAN__PLUGINS
     links:
-      - db
+# Commented out to use POSTGRESQL instead of docker db
+#     - db
       - solr
       - redis
       - datapusher
     ports:
       - "0.0.0.0:${CKAN_PORT}:5000"
+#      - "0.0.0.0:${CKAN_PORT}:5000"
     volumes:
+      - ./src:/srv/app/src_extensions
       - ckan_storage:/var/lib/ckan
+      - ckan_app:/srv/app
+      - ckan_etc:/etc
+      - ckan_home:/home
 
   datapusher:
     container_name: datapusher
@@ -25,18 +43,13 @@ services:
     ports:
       - "8800:8800"
 
-  db:
-    container_name: db
-    build:
-      context: postgresql/
-      args:
-        - DATASTORE_READONLY_PASSWORD=${DATASTORE_READONLY_PASSWORD}
-        - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-    environment:
-      - DATASTORE_READONLY_PASSWORD=${DATASTORE_READONLY_PASSWORD}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-    volumes:
-      - pg_data:/var/lib/postgresql/data
+# Commented out to use POSTGRESQL instead of docker db
+#  db:
+#    container_name: db
+#    build:
+#      context: postgresql/
+#    volumes:
+#      - pg_data:/var/lib/postgresql/data
 
   solr:
     container_name: solr
@@ -49,4 +62,8 @@ services:
 
 volumes:
   ckan_storage:
-  pg_data:
+# Commented out to use POSTGRESQL instead of docker db
+#  pg_data:
+  ckan_app:
+  ckan_etc:
+  ckan_home:

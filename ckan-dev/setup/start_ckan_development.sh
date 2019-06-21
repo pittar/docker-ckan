@@ -67,8 +67,8 @@ paster --plugin=ckan config-tool $SRC_DIR/ckan/test-core.ini \
     "ckan.redis_url = $TEST_CKAN_REDIS_URL"
 
 # Run the prerun script to init CKAN and create the default admin user
-. $APP_DIR/bin/activate && cd $APP_DIR/src && \
-python prerun.py
+. $APP_DIR/bin/activate && cd $APP_DIR && \
+    python prerun.py
 
 # Run any startup scripts provided by images extending this one
 if [[ -d "/docker-entrypoint.d" ]]
