@@ -1,5 +1,7 @@
 src/*
 
+.env
+.env-*
 .pyc
 .pyo
 
