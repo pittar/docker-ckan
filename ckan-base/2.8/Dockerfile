@@ -8,7 +8,7 @@ ENV PIP_SRC=${SRC_DIR}
 ENV CKAN_STORAGE_PATH=/var/lib/ckan
 ENV GIT_URL=https://github.com/ckan/ckan.git
 # CKAN version to build
-ENV GIT_BRANCH=ckan-2.8.2
+ENV GIT_BRANCH=ckan-2.8.3
 # Customize these on the .env file if needed
 ENV CKAN_SITE_URL=${CKAN_SITE_URL}
 #ENV CKAN_SITE_URL=http://localhost:5000
@@ -18,6 +18,8 @@ WORKDIR ${APP_DIR}
 
 # Install necessary packages to run CKAN
 RUN apk add --no-cache git \
+RUN apk add --no-cache tzdata \
+        git \
         gettext \
         postgresql-client \
         python \
@@ -63,7 +65,7 @@ RUN virtualenv ${APP_DIR} && \
     ln -s ${APP_DIR}/bin/paster /usr/local/bin/ckan-paster
 
 RUN echo "@testing http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories && \
-    apk add --update --no-cache geos@testing geos-dev@testing py-geos@testing
+    apk add --update --no-cache geos@testing geos-dev@testing py3-geos@testing
 
 COPY setup/supervisord.conf /etc
 
