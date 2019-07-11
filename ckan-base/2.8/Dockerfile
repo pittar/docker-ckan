@@ -17,7 +17,6 @@ ENV CKAN__PLUGINS=${CKAN__PLUGINS}
 WORKDIR ${APP_DIR}
 
 # Install necessary packages to run CKAN
-RUN apk add --no-cache git \
 RUN apk add --no-cache tzdata \
         git \
         gettext \
