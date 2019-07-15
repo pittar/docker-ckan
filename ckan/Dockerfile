@@ -3,7 +3,11 @@ FROM openknowledge/ckan-base:2.8
 MAINTAINER John Kolesar
 
 #Install extra system packages needed by registry
- 
+
+# Set timezone
+ARG TZ
+RUN echo $TZ > /etc/timezone
+RUN cp /usr/share/zoneinfo/$TZ /etc/localtime
 
 # Install any extensions needed by your CKAN instance
 # (Make sure to add the plugins to CKAN__PLUGINS in the .env file)
