@@ -33,6 +33,11 @@ ENV CKAN__VIEWS__DEFAULT_VIEWS=${CKAN__VIEWS__DEFAULT_VIEWS}
 ENV CKAN___CKANEXT__GEOVIEW__OL_VIEWER__FORMATS=${CKAN___CKANEXT__GEOVIEW__OL_VIEWER__FORMATS}
 #ENV CKAN__ROOT_PATH=${CKAN__ROOT_PATH}
 
+# Set timezone
+ARG TZ
+RUN cp /usr/share/zoneinfo/$TZ /etc/localtime
+RUN echo $TZ > /etc/timezone
+
 RUN chown -R ckan:ckan /srv/app/*
 
 USER ckan

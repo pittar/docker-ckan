@@ -55,6 +55,10 @@ services:
     container_name: solr
     build:
       context: solr/
+    ports:
+      - "8983:8983"
+    volumes:
+      - solr_data:/opt/solr/server/solr/ckan/data/index
 
   redis:
     container_name: redis
@@ -66,3 +70,4 @@ volumes:
 #  pg_data:
   ckan_app:
   ckan_etc:
+  solr_data:
