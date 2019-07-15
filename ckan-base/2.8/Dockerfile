@@ -17,7 +17,8 @@ ENV CKAN__PLUGINS=${CKAN__PLUGINS}
 WORKDIR ${APP_DIR}
 
 # Install necessary packages to run CKAN
-RUN apk add --no-cache git \
+RUN apk add --no-cache tzdata \
+        git \
         gettext \
         postgresql-client \
         python \
@@ -73,7 +74,7 @@ RUN . ${APP_DIR}/bin/activate && cd ${APP_DIR}/src && \
     cd ${SRC_DIR}/ckan && \
     cp who.ini ${APP_DIR} && \
     # Workaround to solve https://github.com/psycopg/psycopg2/issues/594 in Alpine 3.7
-	sed -i -e "s/psycopg2==2.4.5/psycopg2==2.7.3.2/g" requirements.txt && \
+#	sed -i -e "s/psycopg2==2.4.5/psycopg2==2.7.3.2/g" requirements.txt && \
     pip install --no-binary :all: -r requirements.txt
 
     # Install CKAN envvars to support loading config from environment variables
