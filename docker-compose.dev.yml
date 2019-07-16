@@ -34,14 +34,17 @@ services:
       - ckan_storage:/var/lib/ckan
       - ckan_app:/srv/app
       - ckan_etc:/etc
-      - ckan_home:/home
 
+      - ckan_home:/home
+    restart: alawys
+    
   datapusher:
     container_name: datapusher
     build:
       context: datapusher/
     ports:
       - "8800:8800"
+    restart: always
 
 # Commented out to use POSTGRESQL instead of docker db
 #  db:
@@ -59,11 +62,13 @@ services:
       - "8983:8983"
     volumes:
       - solr_data:/opt/solr/server/solr/ckan/data/index
-
+    restart: always
+    
   redis:
     container_name: redis
     image: redis:alpine
-
+    restart: always
+    
 volumes:
   ckan_storage:
 # Commented out to use POSTGRESQL instead of docker db
