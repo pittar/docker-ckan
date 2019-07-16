@@ -33,7 +33,7 @@ services:
       - ckan_storage:/var/lib/ckan
       - ckan_app:/srv/app
       - ckan_etc:/etc
-    restart: always
+    restart: alawys
     
   datapusher:
     container_name: datapusher
@@ -68,7 +68,8 @@ services:
     
 volumes:
   ckan_storage:
-  pg_data:
+# Commented out - using postresql service
+# pg_data:
   ckan_app:
   ckan_etc:
   solr_data:
