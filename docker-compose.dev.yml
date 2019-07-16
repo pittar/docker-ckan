@@ -34,7 +34,6 @@ services:
       - ckan_storage:/var/lib/ckan
       - ckan_app:/srv/app
       - ckan_etc:/etc
-
       - ckan_home:/home
     restart: alawys
     
