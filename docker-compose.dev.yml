@@ -33,20 +33,23 @@ services:
       - ckan_storage:/var/lib/ckan
       - ckan_app:/srv/app
       - ckan_etc:/etc
-
+    restart: always
+    
   datapusher:
     container_name: datapusher
     build:
       context: datapusher/
     ports:
       - "8800:8800"
+    restart: always
 
-  db:
-    container_name: db
-    build:
-      context: postgresql/
-    volumes:
-      - pg_data:/var/lib/postgresql/data
+#   Commented out to use Postgresql service instead
+# db:
+#    container_name: db
+#    build:
+#      context: postgresql/
+#    volumes:
+#      - pg_data:/var/lib/postgresql/data
 
   solr:
     container_name: solr
@@ -56,11 +59,13 @@ services:
       - "8983:8983"
     volumes:
       - solr_data:/opt/solr/server/solr/ckan/data/index
-
+    restart: always
+    
   redis:
     container_name: redis
     image: redis:alpine
-
+    restart: always
+    
 volumes:
   ckan_storage:
   pg_data:
