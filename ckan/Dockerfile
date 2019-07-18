@@ -1,5 +1,5 @@
-FROM openknowledge/ckan-base:2.8
-
+# Change to point to Azure container registry
+FROM ckan-dev:2.8
 MAINTAINER John Kolesar
 
 #Install extra system packages needed by registry
