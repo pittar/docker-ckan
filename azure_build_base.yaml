@@ -1,0 +1,9 @@
+version: v1.0.0
+steps:
+# Build base and dev target image
+- build: -t {{.Run.Registry}}/base/ckan-base:2.8.3.{{.Run.ID}} -f ckan-base/2.8/Dockerfile ckan-base/2.8/.
+- build: -t {{.Run.Registry}}/base/ckan-dev:2.8.3.{{.Run.ID}} -f ckan-dev/2.8/Dockerfile ckan-dev/2.8/.
+# Push image
+- push:
+  - {{.Run.Registry}}/base/ckan-base:2.8.3.{{.Run.ID}}
+  - {{.Run.Registry}}/base/ckan-base:2.8.3.{{.Run.ID}}
