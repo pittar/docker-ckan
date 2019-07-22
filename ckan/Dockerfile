@@ -1,5 +1,6 @@
-# Change to point to Azure container registry
-FROM ckan-dev:2.8
+# If building all from local environment chage to 
+#FROM ckan-base:2.8
+FROM ckancontainerreg.azurecr.io/base/ckan-base:2.8.3
 MAINTAINER John Kolesar
 
 #Install extra system packages needed by registry
