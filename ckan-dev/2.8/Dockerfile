@@ -1,4 +1,7 @@
-FROM ckan-base:2.8
+# Change to local ckan-base if not pulling 
+# from Azure Registry
+# From ckan-base:2.8
+FROM ckancontainerreg.azurecr.io/base/ckan-base:2.8.3
 
 MAINTAINER John Kolesar
 
