@@ -15,7 +15,7 @@ RUN cp /usr/share/zoneinfo/$TZ /etc/localtime
 #RUN pip install -e git+https://github.com/ckan/ckanext-pages.git#egg=ckanext-pages && \
 #    pip install -e git+https://github.com/ckan/ckanext-dcat.git@v0.0.6#egg=ckanext-dcat && \
 #    pip install -r https://raw.githubusercontent.com/ckan/ckanext-dcat/v0.0.6/requirements.txt
-RUN . $APP_DIR/bin/activate && cd $APP_DIR/src && /
+RUN . $APP_DIR/bin/activate && cd $APP_DIR/src && \
     pip install PyYAML && \
     pip install ckanapi && \
     pip install geojson && \
