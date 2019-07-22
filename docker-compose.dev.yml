@@ -35,7 +35,7 @@ services:
       - ckan_app:/srv/app
       - ckan_etc:/etc
       - ckan_home:/home
-    restart: alawys
+    restart: always
     
   datapusher:
     container_name: datapusher
@@ -75,3 +75,4 @@ volumes:
   ckan_app:
   ckan_etc:
   solr_data:
+  ckan_home:
