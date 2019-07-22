@@ -1,6 +1,6 @@
 # If building all from local environment chage to 
 #FROM ckan-dev:2.8
-FROM ckancontainerreg/base/ckan-dev:2.8.3
+FROM ckancontainerreg.azurecr.io/base/ckan-dev:2.8.3
 
 MAINTAINER John Kolesar
 
