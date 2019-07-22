@@ -9,7 +9,7 @@ services:
       dockerfile: Dockerfile.dev
       args:
          - TZ=${TZ}
-         - CKAN_SITE_URL=$(CKAN_SITE_URL)
+         - CKAN_SITE_URL=${CKAN_SITE_URL}
          - CKAN_SQLALCHEMY_URL
          - CKAN__LOCALE_ORDER
          - CKAN__LOCALES_OFFERED
