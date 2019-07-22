@@ -2,12 +2,12 @@ version: v1.0.0
 steps:
 
 # Build base and dev target image
-- build: -t {{.Run.Registry}}/dev/ckan:2.8.3.latest -f ckan/Dockerfile.dev .
+#- build: -t {{.Run.Registry}}/dev/ckan:2.8.3.latest -f ckan/Dockerfile.dev .
 - build: -t {{.Run.Registry}}/dev/solr:latest -f solr/Dockerfile .
 - build: -t {{.Run.Registry}}/dev/datapusher:latest -f datapusher/Dockerfile .
 
 # Push image
 - push:
-  - {{.Run.Registry}}/dev/ckan:2.8.3.latest
+#  - {{.Run.Registry}}/dev/ckan:2.8.3.latest
   - {{.Run.Registry}}/dev/solr:latest
   - {{.Run.Registry}}/dev/datapusher:latest
