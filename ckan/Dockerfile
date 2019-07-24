@@ -7,8 +7,8 @@ MAINTAINER John Kolesar
 
 # Set timezone
 ARG TZ
+COPY zoneinfo/$TZ /etc/localtime
 RUN echo $TZ > /etc/timezone
-RUN cp /usr/share/zoneinfo/$TZ /etc/localtime
 
 # Install any extensions needed by your CKAN instance
 # (Make sure to add the plugins to CKAN__PLUGINS in the .env file)
