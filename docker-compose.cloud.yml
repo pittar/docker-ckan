@@ -22,7 +22,6 @@ services:
       - CKAN_SOLR_URL=${CKAN_SOLR_URL}
       - CKAN_REDIS_URL=${CKAN_REDIS_URL}
       - CKAN_DATAPUSHER_URL=${CKAN_DATAPUSHER_URL}
-
     links:
 # Commented out to use POSTGRESQL instead of docker db
 #     - db
