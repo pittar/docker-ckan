@@ -8,6 +8,6 @@ steps:
 
 # Push image
 - push:
-#  - {{.Run.Registry}}/dev/ckan:2.8.3.latest
+  - {{.Run.Registry}}/dev/ckan:2.8.3.latest
   - {{.Run.Registry}}/dev/solr:latest
   - {{.Run.Registry}}/dev/datapusher:latest

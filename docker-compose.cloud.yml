@@ -1,0 +1,55 @@
+version: "3"
+
+services:
+  ckan-dev:
+    image: ckancontainerreg.azurecr.io/prod/ckan:2.8.3.latest
+    environment:
+      - TZ=${TZ}
+      - CKAN_SITE_URL=${CKAN_SITE_URL}
+      - CKAN_SQLALCHEMY_URL=${CKAN_SQLALCHEMY_URL}
+      - CKAN__LOCALE_ORDER=${CKAN__LOCALE_ORDER}
+      - CKAN__LOCALES_OFFERED=${CKAN__LOCALES_OFFERED}
+      - CKAN___SCHEMING__DATASET_SCHEMAS=${CKAN___SCHEMING__DATASET_SCHEMAS}
+      - CKAN___SCHEMING__PRESETS=${CKAN___SCHEMING__PRESETS}
+      - CKAN__SEARCH__SHOW_ALL_TYPES=${CKAN__SEARCH__SHOW_ALL_TYPES}
+      - CKAN___LICENSES_GROUP_URL=${CKAN___LICENSES_GROUP_URL}
+      - CKAN__VIEWS__DEFAULT_VIEWS=${CKAN__VIEWS__DEFAULT_VIEWS}
+      - CKAN___CKANEXT__GEOVIEW__OL_VIEWER__FORMAT=${CKAN___CKANEXT__GEOVIEW__OL_VIEWER_FORMAT}
+      - CKAN__PLUGINS=${CKAN__PLUGINS}
+      - CKAN_DATASTORE_WRITE_URL=${CKAN_DATASTORE_WRITE_URL}
+      - CKAN_DATASTORE_READ_URL=${CKAN_DATASTORE_READ_URL}
+      - CKAN___SCHEMING__DATASET_FALLBACK=${CKAN___SCHEMING__DATASET_FALLBACK} 
+      - CKAN_SOLR_URL=${CKAN_SOLR_URL}
+      - CKAN_REDIS_URL=${CKAN_REDIS_URL}
+      - CKAN_DATAPUSHER_URL=${CKAN_DATAPUSHER_URL}
+
+    links:
+# Commented out to use POSTGRESQL instead of docker db
+#     - db
+      - solr
+      - redis
+      - datapusher
+    ports:
+      - "0.0.0.0:${CKAN_PORT}:5000"
+    volumes:
+      - ckan_storage:/var/lib/ckan
+    restart: always
+    
+  datapusher:
+    image: ckancontainerreg.azurecr.io/prod/datapusher:latest
+    ports:
+      - "8800:8800"
+    restart: always
+
+  solr:
+    image: ckancontainerreg.azurecr.io/prod/solr:latest
+    ports:
+      - "8983:8983"
+    restart: always
+    
+  redis:
+    image: redis:alpine
+    restart: always
+    
+volumes:
+  ckan_storage:
