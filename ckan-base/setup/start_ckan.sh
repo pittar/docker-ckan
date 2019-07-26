@@ -6,7 +6,7 @@ echo "Loading the following plugins: $CKAN__PLUGINS"
     paster --plugin=ckan config-tool $CKAN_INI "ckan.plugins = $CKAN__PLUGINS"
 
 # Run the prerun script to init CKAN and create the default admin user
-. $APP_DIR/bin/activate && cd $APP_DIR/src && \
+. $APP_DIR/bin/activate && cd $APP_DIR && \
     python prerun.py
 
 # Run any startup scripts provided by images extending this one
