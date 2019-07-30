@@ -1,8 +1,13 @@
-version: "3"
+version: "3.7"
 
 services:
   ckan-dev:
     image: ckancontainerreg.azurecr.io/dev/ckan:2.8.3.latest
+    logging:
+      driver: "json-file"
+      options:
+         max-size: "100K"
+         max-file: "10"
     environment:
       - TZ=${TZ}
       - CKAN_SITE_URL=${CKAN_SITE_URL}
@@ -39,12 +44,22 @@ services:
     
   datapusher:
     image: ckancontainerreg.azurecr.io/dev/datapusher:latest
+    logging:
+      driver: "json-file"
+      options:
+         max-size: "100K"
+         max-file: "10"
     ports:
       - "8800:8800"
     restart: always
 
   solr:
     image: ckancontainerreg.azurecr.io/dev/solr:latest
+    logging:
+      driver: "json-file"
+      options:
+         max-size: "100K"
+         max-file: "10"
     ports:
       - "8983:8983"
     volumes:
@@ -53,6 +68,11 @@ services:
     
   redis:
     image: redis:alpine
+    logging:
+      driver: "json-file"
+      options:
+         max-size: "100K"
+         max-file: "10"
     restart: always
     
 volumes:
