@@ -94,6 +94,11 @@ RUN addgroup -g 92 -S ckan && \
 RUN mkdir -p $CKAN_STORAGE_PATH && \
     chown -R ckan:ckan $CKAN_STORAGE_PATH
 
+# Copy Azure public Postgresql cert
+RUN mkdir -p ${APP_DIR}/.postgresql && \
+    chown -R ckan:ckan ${APP_DIR}
+COPY setup/root.crt ${APP_DIR}/.postgresql/root.crt
+
 COPY setup ${APP_DIR}
 COPY setup/supervisor.worker.conf /etc/supervisord.d/worker.conf
 COPY setup/uwsgi.conf /srv/app/uwsgi.conf
