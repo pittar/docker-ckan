@@ -37,7 +37,7 @@ RUN apk add --no-cache tzdata \
         sudo && \
     # Packages to build CKAN requirements and plugins
     apk add --no-cache --virtual .build-deps \
-#        postgresql-dev \
+        postgresql-dev \
 	postgresql-client \
         gcc \
         make \
