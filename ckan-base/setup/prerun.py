@@ -11,6 +11,26 @@ ckan_ini = os.environ.get('CKAN_INI', '/srv/app/production.ini')
 
 RETRY = 5
 
+def init_organizations():
+    url_is_set = os.environ.get('CKAN_SITE_URL')
+    if not url_is_set:
+        print '[prerun] CKAN_SITE_URL not defined skipping organization initialization'
+        return
+    cmd = 'mkdir -p ${CKAN_STORAGE_PATH}/storage/uploads/groups && \
+           cd ${CKAN_STORAGE_PATH}/storage/uploads/groups && \
+           curl https://raw.githubusercontent.com/aafc-ckan/ckanext-aafc/master/imports/group-photos.tar.gz > ${CKAN_STORAGE_PATH}/storage/uploads/groups/group-photos.tar.gz && \
+           tar -xzvf group-photos.tar.gz && \
+           rm group-photos.tar.gz && \
+           mkdir -p ${APP_DIR}/temp && \
+           cd  ${APP_DIR}/temp && \
+           curl https://raw.githubusercontent.com/aafc-ckan/ckanext-aafc/master/imports/org_data.json.gz > ${APP_DIR}/temp/org_data.json.gz && \
+           gunzip org_data.json.gz && \
+           . $APP_DIR/bin/activate && cd $APP_DIR/temp && \
+           ckanapi load organizations -I org_data.json -c /${APP_DIR}/production.ini && \
+           rm -rf ${APP_DIR}/temp'
+    results = subprocess.run(
+           cmd, shell=TRUE, universal_newlines=True, check=True)
+    print(results.stdout)
 
 def check_main_db_connection(retry=None):
 
