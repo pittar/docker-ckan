@@ -16,9 +16,9 @@ def init_organizations():
     if not url_is_set:
         print '[prerun] CKAN_SITE_URL not defined skipping organization initialization'
         return
-    cmd = 'mkdir -p ${CKAN_STORAGE_PATH}/storage/uploads/groups && \
-           cd ${CKAN_STORAGE_PATH}/storage/uploads/groups && \
-           curl https://raw.githubusercontent.com/aafc-ckan/ckanext-aafc/master/imports/group-photos.tar.gz > ${CKAN_STORAGE_PATH}/storage/uploads/groups/group-photos.tar.gz && \
+    cmd = 'mkdir -p /var/lib/ckan/storage/uploads/groups && \
+           cd /var/lib/ckan/storage/uploads/groups && \
+           curl https://raw.githubusercontent.com/aafc-ckan/ckanext-aafc/master/imports/group-photos.tar.gz > /var/lib/ckan/storage/uploads/groups/group-photos.tar.gz && \
            tar -xzvf group-photos.tar.gz && \
            rm group-photos.tar.gz && \
            mkdir -p ${APP_DIR}/temp && \
