@@ -102,12 +102,12 @@ RUN . $APP_DIR/bin/activate && cd $APP_DIR/src && \
 RUN mkdir -p ${CKAN_STORAGE_PATH}/storage/uploads/groups
 
 RUN cd ${CKAN_STORAGE_PATH}/storage/uploads/groups && \
-    tar -xzvf https://github.com/aafc-ckan/ckanext-aafc.github.io/blob/master/imports/group-photos.tar.gz
+    tar -xzvf https://raw.githubusercontent.com/aafc-ckan/ckanext-aafc/master/imports/group-photos.tar.gz
 
 # Unzip organization json and load into ckan
 RUN mkdir -p ${APP_DIR}/temp && \
     cd  ${APP_DIR}/temp && \
-    gunzip https://github.com/aafc-ckan/ckanext-aafc.github.io/blob/master/imports/org_data.json.gz ${APP_DIR}/temp/ && \
+    gunzip https://raw.githubusercontent.com/aafc-ckan/ckanext-aafc/master/imports/org_data.json.gz ${APP_DIR}/temp/ && \
     . $APP_DIR/bin/activate && cd $APP_DIR/temp && \
     ckanapi load organizations -I org_data.json && \
     rm -rf ${APP_DIR}/temp
