@@ -205,3 +205,4 @@ if __name__ == '__main__':
         init_db()
         init_datastore_db()
         create_sysadmin()
+        init_organizations()
