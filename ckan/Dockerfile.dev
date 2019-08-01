@@ -112,7 +112,7 @@ RUN mkdir -p ${APP_DIR}/temp && \
     curl https://raw.githubusercontent.com/aafc-ckan/ckanext-aafc/master/imports/org_data.json.gz > ${APP_DIR}/temp/org_data.json.gz && \
     gunzip org_data.json.gz && \
     . $APP_DIR/bin/activate && cd $APP_DIR/temp && \
-    ckanapi load organizations -I org_data.json && \
+    ckanapi load organizations -I org_data.json -c /${APP_DIR}/production.ini && \
     rm -rf ${APP_DIR}/temp
 
 # Apply any patches needed to CKAN core or any of the built extensions (not the
