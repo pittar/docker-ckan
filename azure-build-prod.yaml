@@ -3,11 +3,13 @@ steps:
 
 # Build base and dev target image
 - build: -t {{.Run.Registry}}/prod/ckan:2.8.3.latest -f ckan/Dockerfile ckan/.
-- build: -t {{.Run.Registry}}/prod/solr:latest -f solr/Dockerfile solr/.
-- build: -t {{.Run.Registry}}/prod/datapusher:latest -f datapusher/Dockerfile datapusher/.
+# Commented out for now: not required every time we rebuild
+#- build: -t {{.Run.Registry}}/prod/solr:latest -f solr/Dockerfile solr/.
+#- build: -t {{.Run.Registry}}/prod/datapusher:latest -f datapusher/Dockerfile datapusher/.
 
 # Push image
 - push:
   - {{.Run.Registry}}/prod/ckan:2.8.3.latest
-  - {{.Run.Registry}}/prod/solr:latest
-  - {{.Run.Registry}}/prod/datapusher:latest
+# Commented out for now: not required every time we rebuild
+#  - {{.Run.Registry}}/prod/solr:latest
+#  - {{.Run.Registry}}/prod/datapusher:latest
