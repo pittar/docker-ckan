@@ -131,7 +131,8 @@ def init_datastore_db():
         perms_sql = datastore_perms.stdout.read()
         # Remove internal pg command as psycopg2 does not like it
         perms_sql = re.sub('\\\\connect \"(.*)\"', '', perms_sql)
-        perms_sql = perms_sql.replace("%40", "@"))
+        print prems_sql
+        perms_sql = re.sub('\%40', '@', perms_sql)
         cursor.execute(perms_sql)
         for notice in connection.notices:
             print notice
@@ -143,6 +144,7 @@ def init_datastore_db():
     except psycopg2.Error as e:
         print '[prerun] Could not initialize datastore'
         print str(e)
+        print perms_sql
 
     except subprocess.CalledProcessError, e:
         if 'OperationalError' in e.output:
