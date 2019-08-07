@@ -35,6 +35,7 @@ def init_organizations():
 def check_main_db_connection(retry=None):
 
     conn_str = os.environ.get('CKAN_SQLALCHEMY_URL')
+    conn_str = conn_str.replace('@','%40',1)
     if not conn_str:
         print '[prerun] CKAN_SQLALCHEMY_URL not defined, not checking db'
     return check_db_connection(conn_str, retry)
@@ -43,6 +44,7 @@ def check_main_db_connection(retry=None):
 def check_datastore_db_connection(retry=None):
 
     conn_str = os.environ.get('CKAN_DATASTORE_WRITE_URL')
+    conn_str = conn_str.replace('@','%40',1)
     if not conn_str:
         print '[prerun] CKAN_DATASTORE_WRITE_URL not defined, not checking db'
     return check_db_connection(conn_str, retry)
