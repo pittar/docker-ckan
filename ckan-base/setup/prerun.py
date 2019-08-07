@@ -111,7 +111,7 @@ def init_db():
 
 def init_datastore_db():
 
-    conn_str = os.environ.get('CKAN_DATASTORE_WRITE_URL')
+    conn_str = replace(os.environ.get('CKAN_DATASTORE_WRITE_URL'),"%40","@")
     if not conn_str:
         print '[prerun] Skipping datastore initialization'
         return
