@@ -112,6 +112,7 @@ def init_db():
 def init_datastore_db():
 
     conn_str = os.environ.get('CKAN_DATASTORE_WRITE_URL')
+    conn_str = conn_str.replace('@','%40',1)
     if not conn_str:
         print '[prerun] Skipping datastore initialization'
         return
@@ -130,9 +131,8 @@ def init_datastore_db():
 
         perms_sql = datastore_perms.stdout.read()
         # Remove internal pg command as psycopg2 does not like it
-        perms_sql = re.sub('\\\\connect \"(.*)\"', '', perms_sql)
-        print prems_sql
-        perms_sql = re.sub('\%40', '@', perms_sql)
+        perms_sql = perms_sql.replace('ckan@isb-postgresql-ckan-dev','ckan')
+        perms_sql = perms_sql.replace('datastore_ro@isb-postgresql-ckan-dev','datastore_ro')
         cursor.execute(perms_sql)
         for notice in connection.notices:
             print notice
@@ -144,7 +144,6 @@ def init_datastore_db():
     except psycopg2.Error as e:
         print '[prerun] Could not initialize datastore'
         print str(e)
-        print perms_sql
 
     except subprocess.CalledProcessError, e:
         if 'OperationalError' in e.output:
