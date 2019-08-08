@@ -20,8 +20,8 @@ WORKDIR ${APP_DIR}
 RUN apk add --no-cache tzdata \
         git \
         gettext \
-        postgresql-client \
-        python \
+#        postgresql-client \
+               python \
         apache2-utils \
         libxml2 \
         libxslt \
@@ -37,8 +37,10 @@ RUN apk add --no-cache tzdata \
         sudo && \
     # Packages to build CKAN requirements and plugins
     apk add --no-cache --virtual .build-deps \
-        postgresql-dev \
-	postgresql-client \
+#        postgresql-dev \
+#	postgresql-client \
+        postgresql-dev-10.9-r0 \
+	postgresql-client-10.9-r0.apk \
         gcc \
         make \
         g++ \
