@@ -114,6 +114,11 @@ def init_datastore_db():
     if not conn_str:
         print '[prerun] Skipping datastore initialization'
         return
+    
+    postgresql_serv = os.environ.get('POSTGRESQL_SERVICE')
+    if not postgresql_serv:
+        print '[prerun] No Postgresql Service Defined'
+ #       return
 
     datastore_perms_command = ['paster', '--plugin=ckan', 'datastore',
                                'set-permissions', '-c', ckan_ini]
@@ -132,8 +137,8 @@ def init_datastore_db():
         # Remove internal pg command as psycopg2 does not like it
         perms_sql = re.sub('\\\\connect \"(.*)\"', '', perms_sql)
         # Strip the fully qualified Postgresql user name for database script"
-        perms_sql = re.sub('(%40([^"]|"")*")/g', '"', perms_sql)
-#        perms_sql = perms_sql.replace("ckan%40isb-postgresql-ckan-dev","ckan")
+#        perms_sql = re.sub('(%40([^"]|"")*")/g', '"', perms_sql)
+        perms_sql = perms_sql.replace("%40"+postgresql_serv,"")
 #        perms_sql = perms_sql.replace("datastore_ro%40isb-postgresql-ckan-dev","datastore_ro")
         print perms_sql
         cursor.execute(perms_sql)
