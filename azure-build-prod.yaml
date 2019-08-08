@@ -2,7 +2,7 @@ version: v1.0.0
 steps:
 
 # Build base and dev target image
-- build: -t {{.Run.Registry}}/prod/ckan:2.8.3.latest -f ckan/Dockerfile ckan/.
+- build: --no-cache -t {{.Run.Registry}}/prod/ckan:2.8.3.latest -f ckan/Dockerfile ckan/.
 # Commented out for now: not required every time we rebuild
 #- build: -t {{.Run.Registry}}/prod/solr:latest -f solr/Dockerfile solr/.
 #- build: -t {{.Run.Registry}}/prod/datapusher:latest -f datapusher/Dockerfile datapusher/.
