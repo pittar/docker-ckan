@@ -34,7 +34,7 @@ def init_organizations():
 
 def check_main_db_connection(retry=None):
 
-    conn_str = os.environ.get('CKAN_SQLALCHEMY_URL').replace('@','%40',1)
+    conn_str = os.environ.get('CKAN_SQLALCHEMY_URL')
     if not conn_str:
         print '[prerun] CKAN_SQLALCHEMY_URL not defined, not checking db'
     return check_db_connection(conn_str, retry)
@@ -42,7 +42,7 @@ def check_main_db_connection(retry=None):
 
 def check_datastore_db_connection(retry=None):
 
-    conn_str = os.environ.get('CKAN_DATASTORE_WRITE_URL').replace('@','%40',1)
+    conn_str = os.environ.get('CKAN_DATASTORE_WRITE_URL')
     if not conn_str:
         print '[prerun] CKAN_DATASTORE_WRITE_URL not defined, not checking db'
     return check_db_connection(conn_str, retry)
@@ -111,7 +111,7 @@ def init_db():
 
 def init_datastore_db():
 
-    conn_str = os.environ.get('CKAN_DATASTORE_WRITE_URL').replace('@','%40',1)
+    conn_str = os.environ.get('CKAN_DATASTORE_WRITE_URL')
     if not conn_str:
         print '[prerun] Skipping datastore initialization'
         return
@@ -130,7 +130,7 @@ def init_datastore_db():
 
         perms_sql = datastore_perms.stdout.read()
         # Remove internal pg command as psycopg2 does not like it
-        perms_sql = perms_sql.replace('@isb-postgresql-ckan-dev','')
+        perms_sql = perms_sql.replace('%40isb-postgresql-ckan-dev','')
         cursor.execute(perms_sql)
         for notice in connection.notices:
             print notice
