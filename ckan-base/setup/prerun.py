@@ -128,12 +128,14 @@ def init_datastore_db():
             stdout=subprocess.PIPE)
 
         perms_sql = datastore_perms.stdout.read()
+        print perms_sql
         # Remove internal pg command as psycopg2 does not like it
         perms_sql = re.sub('\\\\connect \"(.*)\"', '', perms_sql)
         # Strip the fully qualified Postgresql user name for database script"
 #        perms_sql = re.sub('(%40([^"]|"")*")', '"', perms_sql)
         perms_sql = perms_sql.replace("ckan%40isb-postgresql-ckan-dev","ckan")
         perms_sql = perms_sql.replace("datastore_ro%40isb-postgresql-ckan-dev","datastore_ro")
+        print perms_sql
         cursor.execute(perms_sql)
         for notice in connection.notices:
             print notice
