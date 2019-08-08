@@ -64,8 +64,8 @@ RUN virtualenv ${APP_DIR} && \
     ln -s ${APP_DIR}/bin/pip /usr/local/bin/ckan-pip && \
     ln -s ${APP_DIR}/bin/paster /usr/local/bin/ckan-paster
 
-RUN echo "@postgres_latest http://dl-cdn.alpinelinux.org/alpine/v3.7/main/x86_64/" >> /etc/apk/repositories && \
-    apk add --update --no-cache postgresql-dev-10.9-r0.apk@postgres_latest postgresql-client-10.9-r0@postgres_latest
+RUN echo "@postgres_latest http://dl-cdn.alpinelinux.org/alpine/v3.7/main/" >> /etc/apk/repositories && \
+    apk add --update --no-cache postgresql-dev-10.9-r0@postgres_latest postgresql-client-10.9-r0@postgres_latest
     
 RUN echo "@testing http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories && \
     apk add --update --no-cache geos@testing geos-dev@testing py3-geos@testing
