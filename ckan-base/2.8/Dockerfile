@@ -54,6 +54,8 @@ RUN apk add --no-cache tzdata \
     # Install pip, supervisord and uwsgi
     curl -o ${SRC_DIR}/get-pip.py https://bootstrap.pypa.io/get-pip.py && \
     python ${SRC_DIR}/get-pip.py && \
+    pip install pastescript && \
+    pip install pastedeploy && \
     pip install supervisor && \
     mkdir /etc/supervisord.d && \
     pip install virtualenv && \
