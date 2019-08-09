@@ -56,6 +56,7 @@ RUN apk add --no-cache tzdata \
     python ${SRC_DIR}/get-pip.py && \
     pip install pastescript && \
     pip install pastedeploy && \
+    pip install gevent && \
     pip install supervisor && \
     mkdir /etc/supervisord.d && \
     pip install virtualenv && \
