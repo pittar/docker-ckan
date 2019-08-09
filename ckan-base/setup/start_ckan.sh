@@ -44,9 +44,11 @@ then
     fi
   else
     # Start supervisord
+    . $APP_DIR/bin/activate && cd $APP_DIR/src && \
     supervisord --configuration /etc/supervisord.conf &
     # Start uwsgi
 #    sudo -u ckan -EH uwsgi $UWSGI_OPTS
+    . $APP_DIR/bin/activate && cd $APP_DIR/src && \
     uwsgi $UWSGI_OPTS
   fi
 else
