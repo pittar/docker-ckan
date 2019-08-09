@@ -31,6 +31,11 @@ def init_organizations():
     results = subprocess.run(
            cmd, shell=TRUE, universal_newlines=True, check=True)
     print(results.stdout)
+    
+def rebuild_index():
+    command = ['paster', '--plugin=ckan', 'search-index', 'rebuild', '-c', ckan_ini]
+    subprocess.call(command)
+    print '[prerun] Rebuilt search index'
 
 def check_main_db_connection(retry=None):
 
@@ -216,4 +221,5 @@ if __name__ == '__main__':
         init_db()
         init_datastore_db()
         create_sysadmin()
+        rebuild_index()
 #        init_organizations()
