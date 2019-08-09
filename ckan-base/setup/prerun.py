@@ -140,7 +140,7 @@ def init_datastore_db():
         postgresql_serv = os.environ.get('POSTGRESQL_SERVICE')
         if not postgresql_serv:
             print '[prerun] No Postgresql Service Defined'
-        else    
+        else:    
             perms_sql = perms_sql.replace("%40"+postgresql_serv,"")
 #        perms_sql = perms_sql.replace("datastore_ro%40isb-postgresql-ckan-dev","datastore_ro")
         cursor.execute(perms_sql)
