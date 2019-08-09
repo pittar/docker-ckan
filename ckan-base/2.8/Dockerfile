@@ -56,7 +56,6 @@ RUN apk add --no-cache tzdata \
     python ${SRC_DIR}/get-pip.py && \
     pip install pastescript && \
     pip install pastedeploy && \
-    pip install gevent && \
     pip install supervisor && \
     mkdir /etc/supervisord.d && \
     pip install virtualenv && \
@@ -82,7 +81,8 @@ RUN . ${APP_DIR}/bin/activate && cd ${APP_DIR}/src && \
     cp who.ini ${APP_DIR} && \
     # Workaround to solve https://github.com/psycopg/psycopg2/issues/594 in Alpine 3.7
 #	sed -i -e "s/psycopg2==2.4.5/psycopg2==2.7.3.2/g" requirements.txt && \
-    pip install --no-binary :all: -r requirements.txt
+    pip install --no-binary :all: -r requirements.txt && \
+    pip install gevent
 
     # Install CKAN envvars to support loading config from environment variables
 RUN . ${APP_DIR}/bin/activate && cd ${APP_DIR}/src && \
