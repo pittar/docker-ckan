@@ -222,4 +222,4 @@ if __name__ == '__main__':
         init_datastore_db()
         create_sysadmin()
         rebuild_index()
-#        init_organizations()
+        init_organizations()
