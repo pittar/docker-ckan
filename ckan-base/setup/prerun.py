@@ -16,9 +16,9 @@ def init_organizations():
     if not url_is_set:
         print '[prerun] CKAN_SITE_URL not defined skipping organization initialization'
         return
-    cmd = 'mkdir -p /var/lib/ckan/storage/uploads/groups && \
-           cd /var/lib/ckan/storage/uploads/groups && \
-           curl https://raw.githubusercontent.com/aafc-ckan/ckanext-aafc/master/imports/group-photos.tar.gz > /var/lib/ckan/storage/uploads/groups/group-photos.tar.gz && \
+    cmd = 'mkdir -p /var/lib/ckan/storage/uploads && \
+           cd /var/lib/ckan/storage/uploads && \
+           curl https://raw.githubusercontent.com/aafc-ckan/ckanext-aafc/master/imports/group-photos.tar.gz > /var/lib/ckan/storage/uploads/group-photos.tar.gz && \
            tar -xzvf group-photos.tar.gz && \
            rm group-photos.tar.gz && \
            mkdir -p ${APP_DIR}/temp && \
@@ -28,8 +28,8 @@ def init_organizations():
            . $APP_DIR/bin/activate && cd $APP_DIR/temp && \
            ckanapi load organizations -I org_data.json -c /${APP_DIR}/production.ini && \
            rm -rf ${APP_DIR}/temp'
-    results = subprocess.run(
-           cmd, shell=TRUE, universal_newlines=True, check=True)
+    results = subprocess.call_check(
+           cmd, shell=TRUE, universal_newlines=True)
     print(results.stdout)
     
 def rebuild_index():
