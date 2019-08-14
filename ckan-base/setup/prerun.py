@@ -28,8 +28,8 @@ def init_organizations():
            . $APP_DIR/bin/activate && cd $APP_DIR/temp && \
            ckanapi load organizations -I org_data.json -c /${APP_DIR}/production.ini && \
            rm -rf ${APP_DIR}/temp'
-    results = subprocess.call_check(
-           cmd, shell=TRUE, universal_newlines=True)
+    results = subprocess.check_call(
+           cmd, shell=True, universal_newlines=True)
     print(results.stdout)
     
 def rebuild_index():
