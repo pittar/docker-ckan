@@ -30,7 +30,7 @@ def init_organizations():
            rm -rf ${APP_DIR}/temp'
     results = subprocess.check_call(
            cmd, shell=True, universal_newlines=True)
-    print(results.stdout)
+    print '[prerun] Organizations Initialized with Exit Code: ' + str(results)
     
 def rebuild_index():
     command = ['paster', '--plugin=ckan', 'search-index', 'rebuild', '-c', ckan_ini]
