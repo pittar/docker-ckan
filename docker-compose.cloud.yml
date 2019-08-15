@@ -2,6 +2,7 @@ version: "3.7"
 
 services:
   ckan:
+    container_name: ckan
     image: ckancontainerreg.azurecr.io/prod/ckan:2.8.3.latest
     logging:
       driver: "json-file"
@@ -45,6 +46,7 @@ services:
 #    restart: always
     
   datapusher:
+    container_name: datapusher
     image: ckancontainerreg.azurecr.io/prod/datapusher:latest
     logging:
       driver: "json-file"
@@ -56,6 +58,7 @@ services:
     restart: always
 
   solr:
+    container_name: solr
     image: ckancontainerreg.azurecr.io/prod/solr:latest
     logging:
       driver: "json-file"
@@ -67,6 +70,7 @@ services:
     restart: always
     
   redis:
+    container_name: redis
     image: redis:alpine
     logging:
       driver: "json-file"
