@@ -149,7 +149,6 @@ def init_datastore_db():
             perms_sql = perms_sql.replace("%40"+postgresql_serv,"")
 #        perms_sql = perms_sql.replace("datastore_ro%40isb-postgresql-ckan-dev","datastore_ro")
             cursor.execute(perms_sql)
-            print perms_sql
         for notice in connection.notices:
             print notice
 
