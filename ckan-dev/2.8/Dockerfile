@@ -9,7 +9,9 @@ ENV APP_DIR=/srv/app
 ENV SRC_EXTENSIONS_DIR=/srv/app/src_extensions
 
 # Install packages needed by the dev requirements
-RUN apk add --no-cache libffi-dev
+RUN apk add --no-cache libffi-dev && \
+    apk add mc && \
+    apk add vim
 
 # Install CKAN dev requirements
 RUN . $APP_DIR/bin/activate && cd $APP_DIR/src && \
