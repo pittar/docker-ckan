@@ -25,5 +25,3 @@ COPY setup/start_ckan_development.sh ${APP_DIR}
 
 
 CMD ["/srv/app/start_ckan_development.sh"]
-
-USER ckan
