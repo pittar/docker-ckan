@@ -113,3 +113,5 @@ RUN for d in $APP_DIR/patches/*; do \
     done
     
 RUN chown -R ckan:ckan ${APP_DIR}/*
+
+USER ckan
