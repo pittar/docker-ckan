@@ -1,3 +1,4 @@
+
 # Change to local ckan-base if not pulling 
 # from Azure Registry
 # From ckan-base:2.8
@@ -24,3 +25,5 @@ COPY setup/start_ckan_development.sh ${APP_DIR}
 
 
 CMD ["/srv/app/start_ckan_development.sh"]
+
+USER ckan
