@@ -53,9 +53,9 @@ ARG TZ
 COPY zoneinfo/$TZ /etc/localtime
 RUN echo $TZ > /etc/timezone
 
-RUN chown -R ckan:ckan ${APP_DIR}/*
+#RUN chown -R ckan:ckan ${APP_DIR}/*
 
-USER ckan
+#USER ckan
 
 # Install any extensions needed by your CKAN instance
 # (Make sure to add the plugins to CKAN__PLUGINS in the .env file)
@@ -111,3 +111,5 @@ RUN for d in $APP_DIR/patches/*; do \
             done ; \
         fi ; \
     done
+    
+    RUN chown -R ckan:ckan ${APP_DIR}/*
