@@ -112,4 +112,4 @@ RUN for d in $APP_DIR/patches/*; do \
         fi ; \
     done
     
-    RUN chown -R ckan:ckan ${APP_DIR}/*
+RUN chown -R ckan:ckan ${APP_DIR}/*
