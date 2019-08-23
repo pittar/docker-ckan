@@ -1,0 +1,98 @@
+version: "3.7"
+
+services:
+  ckan-dev:
+    container_name: ckan
+    image: ckancontainerreg.azurecr.io/dev/ckan:2.8.3.latest
+    logging:
+      driver: "json-file"
+      options:
+         max-size: "150K"
+         max-file: "10"
+    environment:
+      - TZ=${TZ}
+      - CKAN_SITE_URL=${CKAN_SITE_URL}
+      - POSTGRESQL_SERVICE=${POSTGRESQL_SERVICE}
+      - CKAN__LOCALE_ORDER=${CKAN__LOCALE_ORDER}
+      - CKAN__LOCALES_OFFERED=${CKAN__LOCALES_OFFERED}
+      - CKAN___SCHEMING__DATASET_SCHEMAS=${CKAN___SCHEMING__DATASET_SCHEMAS}
+      - CKAN___SCHEMING__PRESETS=${CKAN___SCHEMING__PRESETS}
+      - CKAN__SEARCH__SHOW_ALL_TYPES=${CKAN__SEARCH__SHOW_ALL_TYPES}
+      - CKAN___LICENSES_GROUP_URL=${CKAN___LICENSES_GROUP_URL}
+      - CKAN__VIEWS__DEFAULT_VIEWS=${CKAN__VIEWS__DEFAULT_VIEWS}
+      - CKAN___CKANEXT__GEOVIEW__OL_VIEWER__FORMATS=${CKAN___CKANEXT__GEOVIEW__OL_VIEWER__FORMATS}
+      - CKAN__PLUGINS=${CKAN__PLUGINS}
+#      - CKAN___SCHEMING__DATASET_FALLBACK=${CKAN___SCHEMING__DATASET_FALLBACK}
+      - CKAN_SOLR_URL=${CKAN_SOLR_URL}
+      - CKAN_REDIS_URL=${CKAN_REDIS_URL}
+      - CKAN_DATAPUSHER_URL=${CKAN_DATAPUSHER_URL}
+      - CKAN_SQLALCHEMY_URL=postgresql://ckan:${POSTGRES_PASSWORD}@db/ckan
+      - CKAN_DATASTORE_WRITE_URL=postgresql://ckan:${POSTGRES_PASSWORD}@db/datastore
+      - CKAN_DATASTORE_READ_URL=postgresql://datastore_ro:${DS_RO_PASS}@db/datastore
+      - TEST_CKAN_SQLALCHEMY_URL=postgres://ckan:${POSTGRES_PASSWORD}@db/ckan_test
+      - TEST_CKAN_DATASTORE_WRITE_URL=postgresql://ckan:${POSTGRES_PASSWORD}@db/datastore_test
+      - TEST_CKAN_DATASTORE_READ_URL=postgresql://datastore_ro:${DS_RO_PASS}@db/datastore_test
+   links:
+      - db
+      - solr
+      - redis
+      - datapusher
+    ports:
+      - "0.0.0.0:${CKAN_PORT}:5000"
+    volumes:
+      - ckan_storage:/var/lib/ckan
+      - ckan_app:/srv/app
+      - ckan_etc:/etc
+      - ckan_home:/home
+    restart: always
+
+  db:
+    container_name: db
+    build:
+      context: postgresql/
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+
+  datapusher:
+    container_name: datapusher
+    image: ckancontainerreg.azurecr.io/dev/datapusher:latest
+    logging:
+      driver: "json-file"
+      options:
+         max-size: "150K"
+         max-file: "10"
+    ports:
+      - "8800:8800"
+    restart: always
+
+  solr:
+    container_name: solr
+    image: ckancontainerreg.azurecr.io/dev/solr:latest
+    logging:
+      driver: "json-file"
+      options:
+         max-size: "150K"
+         max-file: "10"
+    ports:
+      - "8983:8983"
+    volumes:
+      - solr_data:/opt/solr/server/solr/ckan/data/index
+    restart: always
+
+  redis:
+    container_name: redis
+    image: redis:alpine
+    logging:
+      driver: "json-file"
+      options:
+         max-size: "150K"
+         max-file: "10"
+    restart: always
+
+volumes:
+  ckan_storage:
+  pg_data:
+  ckan_app:
+  ckan_etc:
+  solr_data:
+  ckan_home:
