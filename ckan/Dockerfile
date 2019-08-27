@@ -1,6 +1,6 @@
 # If building all from local environment chage to 
 #FROM ckan-base:2.8
-FROM docker-registry.default.svc:5000/ckan-dev/docker-ckan:latest
+FROM ckan-dev/docker-ckan:latest
 MAINTAINER John Kolesar
 
 ENV APP_DIR=/srv/app
