@@ -26,6 +26,6 @@ https://raw.githubusercontent.com/apache/lucene-solr/releases/lucene-solr/6.0.0/
 RUN echo name=$SOLR_CORE > /opt/solr/server/solr/$SOLR_CORE/core.properties
 
 # Giving ownership to Solr
-RUN chown -R $SOLR_USER:$SOLR_USER /opt/solr/server/solr/$SOLR_CORE
+RUN chown -R $SOLR_USER:$SOLR_GROUP /opt/solr/server/solr/$SOLR_CORE
 
 USER $SOLR_USER
