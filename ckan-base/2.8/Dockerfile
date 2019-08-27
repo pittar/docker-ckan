@@ -72,7 +72,7 @@ RUN echo "@postgres_latest http://dl-cdn.alpinelinux.org/alpine/v3.7/main/" >> /
 RUN echo "@testing http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories && \
     apk add --update --no-cache geos@testing geos-dev@testing py3-geos@testing
 
-COPY ../setup/supervisord.conf /etc
+COPY setup/supervisord.conf /etc
 
 # Install CKAN
 RUN . ${APP_DIR}/bin/activate && cd ${APP_DIR}/src && \
@@ -103,11 +103,11 @@ RUN mkdir -p $CKAN_STORAGE_PATH && \
 # Copy Azure public Postgresql cert
 RUN mkdir -p ${APP_DIR}/.postgresql && \
     chown -R ckan:ckan ${APP_DIR}
-COPY ../setup/root.crt ${APP_DIR}/.postgresql/root.crt
+COPY setup/root.crt ${APP_DIR}/.postgresql/root.crt
 
-COPY ../setup ${APP_DIR}
-COPY ../setup/supervisor.worker.conf /etc/supervisord.d/worker.conf
-COPY ../setup/uwsgi.conf /srv/app/uwsgi.conf
+COPY setup ${APP_DIR}
+COPY setup/supervisor.worker.conf /etc/supervisord.d/worker.conf
+COPY setup/uwsgi.conf /srv/app/uwsgi.conf
 
 # Create entrypoint directory for children image scripts
 ONBUILD RUN mkdir /docker-entrypoint.d
