@@ -22,8 +22,6 @@ https://raw.githubusercontent.com/apache/lucene-solr/releases/lucene-solr/6.0.0/
 https://raw.githubusercontent.com/apache/lucene-solr/releases/lucene-solr/6.0.0/solr/server/solr/configsets/data_driven_schema_configs/conf/elevate.xml \
 /opt/solr/server/solr/$SOLR_CORE/conf/
 
-RUN chmod 755 *.xml
-
 # Create Core.properties
 RUN echo name=$SOLR_CORE > /opt/solr/server/solr/$SOLR_CORE/core.properties
 
