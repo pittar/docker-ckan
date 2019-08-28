@@ -25,8 +25,8 @@ https://raw.githubusercontent.com/apache/lucene-solr/releases/lucene-solr/6.0.0/
 RUN chgrp -R 0 /opt/solr/server/solr/$SOLR_CORE/conf \
 && chmod -R g+rwX /opt/solr/server/solr/$SOLR_CORE/conf
 
-RUN chgrp -R 0 ${USER_HOME} && \
-    chmod -R g=u ${USER_HOME}
+RUN chgrp -R 0 ${SOLR_HOME} && \
+    chmod -R g=u ${SOLR_HOME}
     
 RUN chgrp -R 0 /opt/solr/server/solr/$SOLR_CORE/conf && \
     chmod -R g=u /opt/solr/server/solr/$SOLR_CORE/conf
