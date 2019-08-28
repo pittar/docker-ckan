@@ -22,16 +22,10 @@ https://raw.githubusercontent.com/apache/lucene-solr/releases/lucene-solr/6.0.0/
 https://raw.githubusercontent.com/apache/lucene-solr/releases/lucene-solr/6.0.0/solr/server/solr/configsets/data_driven_schema_configs/conf/elevate.xml \
 /opt/solr/server/solr/$SOLR_CORE/conf/
 
-#RUN chgrp -R 0 /opt/solr/server/solr/$SOLR_CORE/conf \
-#&& chmod -R g+rwX /opt/solr/server/solr/$SOLR_CORE/conf
-
 RUN chgrp -R 0 /opt/solr/server/solr/$SOLR_CORE && \
     chmod -R g=u /opt/solr/server/solr/$SOLR_CORE
 
 # Create Core.properties
 RUN echo name=$SOLR_CORE > /opt/solr/server/solr/$SOLR_CORE/core.properties
-
-# Giving ownership to Solr
-#RUN chown -R $SOLR_USER:$SOLR_GROUP /opt/solr/server/solr/$SOLR_CORE
 
 USER $SOLR_USER
