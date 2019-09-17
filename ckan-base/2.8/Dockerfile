@@ -122,7 +122,7 @@ COPY setup/uwsgi.conf /srv/app/uwsgi.conf
 RUN chgrp -R 0 /srv/app && \
     chmod -R g=u /srv/app
 
-USER 1001
+USER 10001
 
 EXPOSE 5000
 
