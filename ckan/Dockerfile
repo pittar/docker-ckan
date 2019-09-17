@@ -122,4 +122,4 @@ RUN chmod -R u+x ${APP_DIR} && \
     chgrp -R 0 ${APP_DIR} && \
     chmod -R g=u ${APP_DIR}
 
-USER 1001
+USER 10001
