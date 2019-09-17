@@ -77,7 +77,7 @@ RUN echo "@testing http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/ap
 COPY setup/supervisord.conf /etc
 
 # Install CKAN
-RUN . ${APP_DIR}/bin/activate && cd ${APP_DIR}/src && \
+RUN . $APP_DIR/bin/activate && cd $APP_DIR/src && \
     pip install -e git+${GIT_URL}@${GIT_BRANCH}#egg=ckan && \
     cd ${SRC_DIR}/ckan && \
     cp who.ini ${APP_DIR} && \
@@ -87,12 +87,13 @@ RUN . ${APP_DIR}/bin/activate && cd ${APP_DIR}/src && \
     pip install gevent
 
     # Install CKAN envvars to support loading config from environment variables
-RUN . ${APP_DIR}/bin/activate && cd ${APP_DIR}/src && \
+RUN . $APP_DIR/bin/activate && cd $APP_DIR/src && \
     pip install -e git+https://github.com/okfn/ckanext-envvars.git#egg=ckanext-envvars && \
     # Create and update CKAN config
-    paster --plugin=ckan make-config ckan ${CKAN_INI} && \
-    paster --plugin=ckan config-tool ${CKAN_INI} "ckan.plugins = ${CKAN__PLUGINS}" && \
-    paster --plugin=ckan config-tool ${CKAN_INI} "ckan.site_url = ${CKAN_SITE_URL}"
+    #paster --plugin=ckan make-config ckan ${CKAN_INI} 
+    #&& \
+    #paster --plugin=ckan config-tool ${CKAN_INI} "ckan.plugins = ${CKAN__PLUGINS}" && \
+    #paster --plugin=ckan config-tool ${CKAN_INI} "ckan.site_url = ${CKAN_SITE_URL}"
 
 # Create a local user and group to run the app
 #RUN addgroup -g 92 -S ckan && \
@@ -111,7 +112,7 @@ RUN chgrp -R 0 $CKAN_STORAGE_PATH && \
 #    chown -R ckan:ckan ${APP_DIR}
 #COPY setup/root.crt ${APP_DIR}/.postgresql/root.crt
 
-COPY setup ${APP_DIR}
+COPY setup/uid_entrypoint $APP_DIR
 COPY setup/supervisor.worker.conf /etc/supervisord.d/worker.conf
 COPY setup/uwsgi.conf /srv/app/uwsgi.conf
 
@@ -119,8 +120,8 @@ COPY setup/uwsgi.conf /srv/app/uwsgi.conf
 # ONBUILD RUN mkdir /docker-entrypoint.d
 
 # RUN chown -R ckan:ckan /srv/app
-RUN chgrp -R 0 /srv/app && \
-    chmod -R g=u /srv/app
+RUN chgrp -R 0 $APP_DIR && \
+    chmod -R g=u $APP_DIR
 
 USER 10001
 
