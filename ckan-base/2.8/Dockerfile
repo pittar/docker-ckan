@@ -14,6 +14,8 @@ ENV CKAN_SITE_URL=${CKAN_SITE_URL}
 #ENV CKAN_SITE_URL=http://localhost:5000
 ENV CKAN__PLUGINS=${CKAN__PLUGINS}
 
+USER root
+
 WORKDIR ${APP_DIR}
 
 # Install necessary packages to run CKAN
