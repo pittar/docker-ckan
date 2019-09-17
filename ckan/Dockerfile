@@ -57,6 +57,8 @@ RUN echo $TZ > /etc/timezone
 
 #USER ckan
 
+USER root
+
 # Install any extensions needed by your CKAN instance
 # (Make sure to add the plugins to CKAN__PLUGINS in the .env file)
 # For instance:
@@ -112,6 +114,9 @@ RUN for d in $APP_DIR/patches/*; do \
         fi ; \
     done
     
-RUN chown -R ckan:ckan ${APP_DIR}/*
+#RUN chown -R ckan:ckan ${APP_DIR}/*
 
-USER ckan
+RUN chgrp -R 0 ${APP_DIR}/* && \
+    chmod -R g=u ${APP_DIR}/*
+
+USER 1001
