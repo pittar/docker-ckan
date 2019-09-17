@@ -93,17 +93,21 @@ RUN . ${APP_DIR}/bin/activate && cd ${APP_DIR}/src && \
     paster --plugin=ckan config-tool ${CKAN_INI} "ckan.site_url = ${CKAN_SITE_URL}"
 
 # Create a local user and group to run the app
-RUN addgroup -g 92 -S ckan && \
-    adduser -u 92 -h /srv/app -H -D -S -G ckan ckan
+#RUN addgroup -g 92 -S ckan && \
+#    adduser -u 92 -h /srv/app -H -D -S -G ckan ckan
 
 # Create local storage folder
-RUN mkdir -p $CKAN_STORAGE_PATH && \
-    chown -R ckan:ckan $CKAN_STORAGE_PATH
+RUN mkdir -p $CKAN_STORAGE_PATH 
+#&& \
+#    chown -R ckan:ckan $CKAN_STORAGE_PATH
+    
+RUN chgrp -R 0 $CKAN_STORAGE_PATH && \
+    chmod -R g=u $CKAN_STORAGE_PATH
 
 # Copy Azure public Postgresql cert
-RUN mkdir -p ${APP_DIR}/.postgresql && \
-    chown -R ckan:ckan ${APP_DIR}
-COPY setup/root.crt ${APP_DIR}/.postgresql/root.crt
+#RUN mkdir -p ${APP_DIR}/.postgresql && \
+#    chown -R ckan:ckan ${APP_DIR}
+#COPY setup/root.crt ${APP_DIR}/.postgresql/root.crt
 
 COPY setup ${APP_DIR}
 COPY setup/supervisor.worker.conf /etc/supervisord.d/worker.conf
@@ -112,7 +116,11 @@ COPY setup/uwsgi.conf /srv/app/uwsgi.conf
 # Create entrypoint directory for children image scripts
 ONBUILD RUN mkdir /docker-entrypoint.d
 
-RUN chown -R ckan:ckan /srv/app
+# RUN chown -R ckan:ckan /srv/app
+RUN chgrp -R 0 /srv/app && \
+    chmod -R g=u /srv/app
+
+USER 1001
 
 EXPOSE 5000
 
