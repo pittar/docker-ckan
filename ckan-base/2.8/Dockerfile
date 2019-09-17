@@ -116,7 +116,7 @@ COPY setup/supervisor.worker.conf /etc/supervisord.d/worker.conf
 COPY setup/uwsgi.conf /srv/app/uwsgi.conf
 
 # Create entrypoint directory for children image scripts
-ONBUILD RUN mkdir /docker-entrypoint.d
+# ONBUILD RUN mkdir /docker-entrypoint.d
 
 # RUN chown -R ckan:ckan /srv/app
 RUN chgrp -R 0 /srv/app && \
