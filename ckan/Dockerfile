@@ -116,7 +116,7 @@ RUN for d in $APP_DIR/patches/*; do \
     
 #RUN chown -R ckan:ckan ${APP_DIR}/*
 
-RUN chgrp -R 0 ${APP_DIR}/* && \
-    chmod -R g=u ${APP_DIR}/*
+RUN chgrp -R 0 ${APP_DIR} && \
+    chmod -R g=u ${APP_DIR}
 
 USER 1001
